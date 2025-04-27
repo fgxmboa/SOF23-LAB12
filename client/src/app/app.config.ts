@@ -1,5 +1,6 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 import { LoginComponent } from './components/login/login.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
       { path: 'perfil', component: PerfilComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'dashboard/facturas', component: FacturasComponent }
-    ])
+    ]),
+    provideHttpClient()
   ]
 };
