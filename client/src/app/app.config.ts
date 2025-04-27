@@ -1,8 +1,21 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
+import { LoginComponent } from './components/login/login.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { FacturasComponent } from './components/facturas/facturas.component';
+
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]
+  providers: [
+    provideRouter([
+      { path: '', redirectTo: 'login', pathMatch: 'full' }, // Ruta inicial redirige a login
+      { path: 'login', component: LoginComponent },
+      { path: 'perfil', component: PerfilComponent },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard/facturas', component: FacturasComponent }
+    ])
+  ]
 };
