@@ -93,20 +93,30 @@ export class FacturasComponent implements OnInit {
   eliminarFactura(element:any){
 
     swal.fire({
-      title: `¿Desea eliminar la factura #${element.numFactura} la a nombre de ${element.nomCliente}?`,
+      title: `¿Desea eliminar la factura #${element.numFactura} a nombre de ${element.nomCliente}?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar',
+      confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-
+        console.log(element._id); // Confirmar ID
+        this.facturaService.delete(element._id)
+          .subscribe({
+            next: () => {
+              this.consultarFacturas(); // Refresca la lista
+              this._snackbar.open('La factura fue eliminada correctamente', '', {
+                duration: 5000,
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom'
+              });
+            },
+            error: (e: any) => console.error(e)
+          });
       }
-
     });
-
   } // fin del médoto de eliminar
 
 
