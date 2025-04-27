@@ -113,7 +113,7 @@ export class FacturasComponent implements OnInit {
   modificarFactura(element:any){
 
     swal.fire({
-      title: `¿Desea modificar la factura #${element.numFactura} la a nombre de ${element.nomCliente}?`,
+      title: `¿Desea modificar la factura #${element.numFactura} a nombre de ${element.nomCliente}?`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -122,6 +122,9 @@ export class FacturasComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
+        console.log(element._id);
+
+        this.router.navigateByUrl(`dashboard/facturas/${element._id}`);
 
       }
 

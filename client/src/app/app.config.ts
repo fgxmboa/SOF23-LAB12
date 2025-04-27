@@ -18,7 +18,8 @@ export const appConfig: ApplicationConfig = {
       { path: 'perfil', component: PerfilComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'dashboard/facturas', component: FacturasComponent },
-      { path: 'dashboard/facturas/form', component: FacturasFormComponent}
+      { path: 'dashboard/facturas/form', component: FacturasFormComponent},
+      { path: 'dashboard/facturas/:id', component: FacturasFormComponent }
     ]),
     provideHttpClient()
   ]

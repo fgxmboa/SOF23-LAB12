@@ -63,8 +63,45 @@ export class FacturasFormComponent implements OnInit {
      }
 
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+      // Escuchar si hay parámetros en la ruta (ID de factura)
+      this.activeRouter.params.subscribe((params: Params) => {
+        console.log(params); // Verificar en consola
+        this.idFactura = params['id'];
+
+        if (this.idFactura !== undefined) {
+          this.isInsertar = false;  // Cambia de modo insertar a modificar
+          this.textPantalla = 'Modificar factura';  // Cambia el título de la pantalla
+
+          // Consultar la factura por ID
+          this.facturaService.get(this.idFactura)
+            .subscribe({
+              next: (res: any) => {
+                this.factura = res;  // Guardar la factura en la variable local
+                // Cargar los datos en el formulario
+                this.form.setValue({
+                  numFactura: this.factura.numFactura,
+                  nomCliente: this.factura.nomCliente,
+                  dirCliente: this.factura.dirCliente,
+                  telCliente: this.factura.telCliente
+                });
+
+                console.log(this.factura);  // Verificar datos cargados
+
+                // Mostrar mensaje de éxito
+                this._snackbar.open('La factura fue cargada con éxito, por favor verificar', '', {
+                  duration: 5000,
+                  horizontalPosition: 'center',
+                  verticalPosition: 'bottom'
+                });
+              },
+              error: (e: any) => console.error(e)
+            });
+
+          console.log('ID de factura: ' + this.idFactura);  // Confirmar ID en consola
+        }
+      });
+    }
 
 
   //***************************************************************/
@@ -97,6 +134,39 @@ export class FacturasFormComponent implements OnInit {
         },
         error: (e:any) => console.error(e)
       });
+  }
+
+  //***************************************************************/
+  //Método para modificar una factura
+  //***************************************************************/
+  modificarFactura(): void{
+    const data = {
+      numFactura: this.form.value.numFactura,
+      nomCliente: this.form.value.nomCliente,
+      dirCliente: this.form.value.dirCliente,
+      telCliente: this.form.value.telCliente,
+      estado: this.form.value.estado
+    };
+
+    console.log(data);
+
+    this.facturaService.update(this.idFactura,data)
+      .subscribe({
+        next: (res: any) => {
+          this.form.reset;
+          console.log(res);
+          this.router.navigateByUrl('/dashboard/facturas');
+
+          this._snackbar.open('La factura fue modificada con exito, por favor verificar', '',{
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          })
+
+        },
+        error: (e:any) => console.error(e)
+      });
+
   }
 
 
